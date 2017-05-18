@@ -27,8 +27,8 @@
 
 namespace EasyWeChat\OpenPlatform\Api;
 
-use EasyWeChat\Core\AbstractAPI;
-use EasyWeChat\OpenPlatform\AccessToken;
+use EasyWeChat\Foundation\Core\AbstractAPI;
+use EasyWeChat\OpenPlatform\Core\AccessToken;
 use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractOpenPlatform extends AbstractAPI
@@ -58,8 +58,8 @@ abstract class AbstractOpenPlatform extends AbstractAPI
      *
      * @return string
      */
-    public function getAppId()
+    public function getClientId()
     {
-        return $this->getAccessToken()->getAppId();
+        return $this->getAccessToken()->getClientId();
     }
 }

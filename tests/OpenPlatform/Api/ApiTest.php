@@ -12,8 +12,8 @@
 namespace EasyWeChat\Tests\OpenPlatform\Api;
 
 use Doctrine\Common\Cache\ArrayCache;
-use EasyWeChat\OpenPlatform\AccessToken;
 use EasyWeChat\OpenPlatform\Api\AbstractOpenPlatform;
+use EasyWeChat\OpenPlatform\Core\AccessToken;
 use EasyWeChat\Tests\TestCase;
 use Mockery as m;
 use Symfony\Component\HttpFoundation\Request;
@@ -24,11 +24,11 @@ class ApiTest extends TestCase
     {
         $accessToken = new AccessToken(
             $appId,
-            'secret',
-            new ArrayCache()
+            'secret'
         );
+        $accessToken->setCache(new ArrayCache());
 
-        return $accessToken->setVerifyTicket(m::mock('EasyWeChat\OpenPlatform\VerifyTicket'));
+        return $accessToken->setVerifyTicket(m::mock('EasyWeChat\OpenPlatform\Core\VerifyTicket'));
     }
 
     protected function getRequest()
@@ -70,11 +70,11 @@ class ApiTest extends TestCase
         return $preAuth;
     }
 
-    public function testGetAppId()
+    public function testGetClientId()
     {
         $api = new OpenPlatformApi($this->getAccessToken('app_id'), $this->getRequest());
 
-        $this->assertEquals('app_id', $api->getAppId());
+        $this->assertEquals('app_id', $api->getClientId());
     }
 }
 
