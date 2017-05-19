@@ -27,6 +27,7 @@
 namespace EasyWeChat\CorpServer;
 
 use EasyWeChat\CorpServer\EventHandlers;
+use EasyWeChat\Support\Log;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -43,23 +44,27 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
-        $pimple['corp_server'] = function ($pimple) {
-            return new CorpServer($pimple);
-        };
+        $suites = $pimple['config']['corp_server']['suites'];
 
-        // Authorization events handlers.
-        $pimple['corp_server.handlers.suite_ticket'] = function ($pimple) {
-            return new EventHandlers\SuiteTicket($pimple['corp_server.suite_ticket']);
-        };
-        $pimple['corp_server.handlers.create_auth'] = function () {
-            return new EventHandlers\CreateAuth();
-        };
-        $pimple['corp_server.handlers.change_auth'] = function () {
-            return new EventHandlers\ChangeAuth();
-        };
-        $pimple['corp_server.handlers.cancel_auth'] = function () {
-            return new EventHandlers\CancleAuth();
-        };
+        foreach ($suites as $key => $suite) {
 
+            $pimple["corp_server_$key"] = function ($pimple) {
+                return new CorpServerQa($pimple);
+            };
+
+            $pimple["corp_server_$key.handlers.suite_ticket"] = function ($pimple) use ($key) {
+                return new EventHandlers\SuiteTicket($pimple["corp_server_$key.suite_ticket"]);
+            };
+            $pimple["corp_server_$key.handlers.create_auth"] = function () {
+                return new EventHandlers\CreateAuth();
+            };
+            $pimple["corp_server_$key.handlers.change_auth"] = function () {
+                return new EventHandlers\ChangeAuth();
+            };
+            $pimple["corp_server_$key.handlers.cancel_auth"] = function () {
+                return new EventHandlers\CancleAuth();
+            };
+
+        }
     }
 }

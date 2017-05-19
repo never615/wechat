@@ -143,12 +143,11 @@ class Guard extends ServerGuard
     /**
      * Parse message array from raw php input.
      *
-     * @param resource|string $verify
+     * @param bool|resource|string $verify
      * @return array
      * @throws RuntimeException
-     * @throws \EasyWeChat\OfficialAccount\Encryption\EncryptionException
      */
-    protected function parseMessageFromRequest($verify)
+    protected function parseMessageFromRequest($verify=false)
     {
         if ($verify) {
             $content = $this->request->get('echostr');

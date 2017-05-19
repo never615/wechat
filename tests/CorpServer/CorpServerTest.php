@@ -23,7 +23,9 @@ class CorpServerTest extends TestCase
 {
     public function testCorpServer()
     {
-        $corpServer = $this->make()->corp_server;
+        $app=$this->make();
+
+        $corpServer = $app->corp_server_qa;
 
 //        $this->assertInstanceOf('EasyWeChat\OpenPlatform\Api\BaseApi', $corpServer->api);
 //        $this->assertInstanceOf('EasyWeChat\OpenPlatform\Api\PreAuthorization', $corpServer->pre_auth);
@@ -66,10 +68,16 @@ class CorpServerTest extends TestCase
     {
         $config = [
             'corp_server' => [
-                'corp_id' => 'your-app-id',
-                'secret' => 'your-app-secret',
-                'token' => 'your-token',
-                'aes_key' => 'your-ase-key',
+                'suites'         => [
+                    "qa" => [
+                        "suite_id" => "tj341a2f8bbd49907a",
+                        "secret"   => "bYxM96UgDtapI8o3k9JHsOJvbQC1FAT2zs57iZqZ8jXoT6UXS5PU_hYRzJZpGsY5",
+                        'token'    => "XS7kNttzYUpQ663EYk5AEc5j84oRs9u",
+                        'aes_key'  => "Lw4qySzZrBqz8iYf5n1MqGQMUElQjxAUTvCgAh6AnO5",
+                    ],
+                ],
+                "corp_id"        => "wx6225037d8b9390be",
+                "providersecret" => "87wH5fiFdQcw5nS6nZKyKXTULc-3ka5soUYg85RS3RIaNpTEp-aZVs7BowsiWbaE",
             ],
         ];
 

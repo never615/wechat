@@ -20,14 +20,14 @@
  * @author    never615 <never615@gmail.com>
  * @copyright 2017
  *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
+ * @see       https://github.com/overtrue
+ * @see       http://overtrue.me
  */
 
 namespace EasyWeChat\CorpServer\Api;
 
+use EasyWeChat\CorpServer\Core\AccessToken;
 use EasyWeChat\Foundation\Core\AbstractAPI;
-use EasyWeChat\OpenPlatform\Core\AccessToken;
 use Symfony\Component\HttpFoundation\Request;
 
 abstract class AbstractCorpServer extends AbstractAPI
@@ -42,7 +42,7 @@ abstract class AbstractCorpServer extends AbstractAPI
     /**
      * AbstractOpenPlatform constructor.
      *
-     * @param \EasyWeChat\CorpServer\AccessToken      $accessToken
+     * @param \EasyWeChat\CorpServer\Core\AccessToken   $accessToken
      * @param \Symfony\Component\HttpFoundation\Request $request
      */
     public function __construct(AccessToken $accessToken, Request $request)

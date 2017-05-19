@@ -35,7 +35,7 @@ use EasyWeChat\Support\Traits\PrefixedContainer;
  * @property \EasyWeChat\CorpServer\Server\Guard $server
  *
  */
-class CorpServer
+class CorpServerQa
 {
     use PrefixedContainer;
 

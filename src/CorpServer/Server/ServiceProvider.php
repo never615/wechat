@@ -37,32 +37,30 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
+        $suites = $pimple['config']['corp_server']['suites'];
 
-        $pimple['corp_server.encryptor'] = function ($pimple) {
-            return new Encryptor(
-                $pimple['config']['corp_server']['corp_id'],
-                $pimple['config']['corp_server']['token'],
-                $pimple['config']['corp_server']['aes_key']
-            );
-        };
+        foreach ($suites as $key => $suite) {
+            $pimple["corp_server_$key.encryptor"] = function ($pimple) use ($suite) {
+                return new Encryptor(
+                    $suite['suite_id'],
+                    $suite['token'],
+                    $suite['aes_key']
+                );
+            };
 
-        $pimple['corp_server.server'] = function ($pimple) {
-            $server = new Guard($pimple['config']['corp_server']['token']);
-            $server->debug($pimple['config']['debug']);
-            $server->setEncryptor($pimple['corp_server.encryptor']);
-            $server->setHandlers([
-                Guard::EVENT_CREATE_AUTH  => $pimple['corp_server.handlers.create_auth'],
-                Guard::EVENT_CANCEL_AUTH  => $pimple['corp_server.handlers.cancel_auth'],
-                Guard::EVENT_CHANGE_AUTH  => $pimple['corp_server.handlers.change_auth'],
-                Guard::EVENT_SUITE_TICKET => $pimple['corp_server.handlers.suite_ticket'],
-            ]);
+            $pimple["corp_server_$key.server"] = function ($pimple) use ($key, $suite) {
+                $server = new Guard($suite['token']);
+                $server->debug($pimple['config']['debug']);
+                $server->setEncryptor($pimple["corp_server_$key.encryptor"]);
+                $server->setHandlers([
+                    Guard::EVENT_CREATE_AUTH  => $pimple["corp_server_$key.handlers.create_auth"],
+                    Guard::EVENT_CANCEL_AUTH  => $pimple["corp_server_$key.handlers.cancel_auth"],
+                    Guard::EVENT_CHANGE_AUTH  => $pimple["corp_server_$key.handlers.change_auth"],
+                    Guard::EVENT_SUITE_TICKET => $pimple["corp_server_$key.handlers.suite_ticket"],
+                ]);
 
-            return $server;
-        };
-
+                return $server;
+            };
+        }
     }
-
-
-
-
 }

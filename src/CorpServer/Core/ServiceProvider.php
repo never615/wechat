@@ -36,13 +36,17 @@ class ServiceProvider implements ServiceProviderInterface
      */
     public function register(Container $pimple)
     {
+        $suites = $pimple['config']['corp_server']['suites'];
 
-        $pimple['corp_server.suite_ticket'] = function ($pimple) {
-            return new Ticket(
-                $pimple['config']['corp_server']['corp_id'],
-                $pimple['cache']
-            );
-        };
+        foreach ($suites as $key => $suite) {
+            $pimple["corp_server_$key.suite_ticket"] = function ($pimple) use ($key, $suite) {
+                return new Ticket(
+                    $suite['suite_id'],
+                    $pimple['cache']
+                );
+            };
+        }
+
 
 //        $container['corp_server.access_token'] = function ($container) {
 //            $accessToken = new AccessToken(
@@ -54,7 +58,7 @@ class ServiceProvider implements ServiceProviderInterface
 //
 //            return $accessToken;
 //        };
-        
-        
+
+
     }
 }
