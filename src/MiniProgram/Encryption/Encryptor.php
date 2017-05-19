@@ -77,7 +77,7 @@ class Encryptor extends BaseEncryptor
      *
      * @throws EncryptionException
      */
-    private function decrypt($encrypted)
+    protected function decrypt($encrypted)
     {
         try {
             $key = $this->getAESKey();

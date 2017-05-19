@@ -15,8 +15,8 @@
  * @author    overtrue <i@overtrue.me>
  * @copyright 2015 overtrue <i@overtrue.me>
  *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
+ * @see       https://github.com/overtrue
+ * @see       http://overtrue.me
  */
 
 namespace EasyWeChat\OfficialAccount\Server;
@@ -85,16 +85,16 @@ class Guard
      * @var array
      */
     protected $messageTypeMapping = [
-        'text' => 2,
-        'image' => 4,
-        'voice' => 8,
-        'video' => 16,
-        'shortvideo' => 32,
-        'location' => 64,
-        'link' => 128,
+        'text'         => 2,
+        'image'        => 4,
+        'voice'        => 8,
+        'video'        => 16,
+        'shortvideo'   => 32,
+        'location'     => 64,
+        'link'         => 128,
         'device_event' => 256,
-        'device_text' => 512,
-        'event' => 1048576,
+        'device_text'  => 512,
+        'event'        => 1048576,
     ];
 
     /**
@@ -138,11 +138,11 @@ class Guard
     public function serve()
     {
         Log::debug('Request received:', [
-            'Method' => $this->request->getMethod(),
-            'URI' => $this->request->getRequestUri(),
-            'Query' => $this->request->getQueryString(),
+            'Method'   => $this->request->getMethod(),
+            'URI'      => $this->request->getRequestUri(),
+            'Query'    => $this->request->getQueryString(),
             'Protocal' => $this->request->server->get('SERVER_PROTOCOL'),
-            'Content' => $this->request->getContent(),
+            'Content'  => $this->request->getContent(),
         ]);
 
         $this->validate($this->token);
@@ -265,8 +265,8 @@ class Guard
     /**
      * Build response.
      *
-     * @param $to
-     * @param $from
+     * @param       $to
+     * @param       $from
      * @param mixed $message
      *
      * @return string
@@ -360,8 +360,8 @@ class Guard
         $response = $this->handleMessage($message);
 
         return [
-            'to' => $message['FromUserName'],
-            'from' => $message['ToUserName'],
+            'to'       => $message['FromUserName'],
+            'from'     => $message['ToUserName'],
             'response' => $response,
         ];
     }
@@ -410,10 +410,10 @@ class Guard
     protected function buildReply($to, $from, $message)
     {
         $base = [
-            'ToUserName' => $to,
+            'ToUserName'   => $to,
             'FromUserName' => $from,
-            'CreateTime' => time(),
-            'MsgType' => is_array($message) ? current($message)->getType() : $message->getType(),
+            'CreateTime'   => time(),
+            'MsgType'      => is_array($message) ? current($message)->getType() : $message->getType(),
         ];
 
         $transformer = new Transformer();

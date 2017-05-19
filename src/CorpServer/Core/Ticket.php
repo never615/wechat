@@ -17,20 +17,19 @@
  * For the full copyright and license information, please view the LICENSE
  * file that was distributed with this source code.
  *
- * @author    mingyoung <mingyoungcheung@gmail.com>
- * @author    lixiao <leonlx126@gmail.com>
- * @copyright 2016
+ * @author    never615 <never615@gmail.com>
+ * @copyright 2017
  *
  * @see      https://github.com/overtrue
  * @see      http://overtrue.me
  */
 
-namespace EasyWeChat\OpenPlatform\Core;
+namespace EasyWeChat\CorpServer\Core;
 
 use Doctrine\Common\Cache\Cache;
 use EasyWeChat\Exceptions\RuntimeException;
 
-class VerifyTicket
+class Ticket
 {
     /**
      * Cache manager.
@@ -58,7 +57,7 @@ class VerifyTicket
      *
      * @var string
      */
-    protected $prefix = 'easywechat.open_platform.component_verify_ticket.';
+    protected $prefix = 'easywechat.corp_server.suite_ticket.';
 
     /**
      * VerifyTicket constructor.
@@ -96,7 +95,7 @@ class VerifyTicket
             return $cached;
         }
 
-        throw new RuntimeException('Component verify ticket does not exists.');
+        throw new RuntimeException('suite ticket does not exists.');
     }
 
     /**

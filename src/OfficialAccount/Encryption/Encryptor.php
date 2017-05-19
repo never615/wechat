@@ -109,16 +109,16 @@ class Encryptor
      * @param string $msgSignature
      * @param string $nonce
      * @param string $timestamp
-     * @param string $postXML
+     * @param string $content
      *
      * @return array
      *
      * @throws EncryptionException
      */
-    public function decryptMsg($msgSignature, $nonce, $timestamp, $postXML)
+    public function decryptMsg($msgSignature, $nonce, $timestamp, $content)
     {
         try {
-            $array = XML::parse($postXML);
+            $array = XML::parse($content);
         } catch (BaseException $e) {
             throw new EncryptionException('Invalid xml.', EncryptionException::ERROR_PARSE_XML);
         }
@@ -252,7 +252,7 @@ class Encryptor
      *
      * @throws EncryptionException
      */
-    private function decrypt($encrypted, $appId)
+    protected function decrypt($encrypted, $appId)
     {
         try {
             $key = $this->getAESKey();
@@ -266,7 +266,6 @@ class Encryptor
 
         try {
             $result = $this->decode($decrypted);
-
             if (strlen($result) < 16) {
                 return '';
             }
