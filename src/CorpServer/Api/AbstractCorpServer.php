@@ -39,8 +39,9 @@ abstract class AbstractCorpServer extends AbstractAPI
      */
     protected $request;
 
+
     /**
-     * AbstractOpenPlatform constructor.
+     * AbstractCorpServer constructor.
      *
      * @param \EasyWeChat\CorpServer\Core\AccessToken   $accessToken
      * @param \Symfony\Component\HttpFoundation\Request $request
@@ -52,8 +53,9 @@ abstract class AbstractCorpServer extends AbstractAPI
         $this->request = $request;
     }
 
+
     /**
-     * Get OpenPlatform AppId.
+     * Get CropServer SuiteId.
      *
      * @return string
      */
@@ -61,4 +63,16 @@ abstract class AbstractCorpServer extends AbstractAPI
     {
         return $this->getAccessToken()->getClientId();
     }
+
+    /**
+     * Get CropSErver SuiteSecret
+     *
+     * @return string
+     */
+    public function getClientSecret()
+    {
+        return $this->getAccessToken()->getClientSecret();
+    }
+
+
 }

@@ -10,7 +10,7 @@
  */
 
 /**
- * VerifyTicket.php.
+ * Ticket.php.
  *
  * Part of Overtrue\WeChat.
  *
@@ -20,8 +20,8 @@
  * @author    never615 <never615@gmail.com>
  * @copyright 2017
  *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
+ * @see       https://github.com/overtrue
+ * @see       http://overtrue.me
  */
 
 namespace EasyWeChat\CorpServer\Core;
@@ -60,7 +60,7 @@ class Ticket
     protected $prefix = 'easywechat.corp_server.suite_ticket.';
 
     /**
-     * VerifyTicket constructor.
+     * Ticket constructor.
      *
      * @param string                       $appId
      * @param \Doctrine\Common\Cache\Cache $cache
@@ -72,7 +72,7 @@ class Ticket
     }
 
     /**
-     * Set component verify ticket to the cache.
+     * Set suite ticket to the cache.
      *
      * @param string $ticket
      *
@@ -84,7 +84,7 @@ class Ticket
     }
 
     /**
-     * Get component verify ticket.
+     * Get suite ticket.
      *
      * @return string
      * @throws RuntimeException
@@ -99,7 +99,7 @@ class Ticket
     }
 
     /**
-     * Set component verify ticket cache key.
+     * Set suite ticket cache key.
      *
      * @param string $cacheKey
      *
@@ -113,7 +113,7 @@ class Ticket
     }
 
     /**
-     * Get component verify ticket cache key.
+     * Get suite ticket cache key.
      *
      * @return string $this->cacheKey
      */

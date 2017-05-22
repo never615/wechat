@@ -82,4 +82,6 @@ class AccessToken extends BaseAccessToken
             'component_verify_ticket' => $this->verifyTicket->getTicket(),
         ];
     }
+    
+    //todo 实现从服务器获取token,父类http是get,开放平台需要时post
 }

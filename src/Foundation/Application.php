@@ -61,14 +61,14 @@ use Symfony\Component\HttpFoundation\Request;
  * @property \EasyWeChat\OfficialAccount\Payment\LuckyMoney\LuckyMoney $lucky_money
  * @property \EasyWeChat\OfficialAccount\Payment\MerchantPay\MerchantPay $merchant_pay
  * @property \EasyWeChat\OfficialAccount\Payment\CashCoupon\CashCoupon $cash_coupon
- * @property \EasyWeChat\OfficialAccount\Reply\Reply $reply
- * @property \EasyWeChat\OfficialAccount\Broadcast\Broadcast $broadcast
- * @property \EasyWeChat\OfficialAccount\Card\Card $card
- * @property \EasyWeChat\OfficialAccount\Device\Device $device
+ * @property \EasyWeChat\OfficialAccount\Reply\Reply             $reply
+ * @property \EasyWeChat\OfficialAccount\Broadcast\Broadcast     $broadcast
+ * @property \EasyWeChat\OfficialAccount\Card\Card               $card
+ * @property \EasyWeChat\OfficialAccount\Device\Device           $device
  * @property \EasyWeChat\OfficialAccount\ShakeAround\ShakeAround $shakearound
- * @property \EasyWeChat\OpenPlatform\OpenPlatform $open_platform
- * @property \EasyWeChat\MiniProgram\MiniProgram $mini_program
- * @property \EasyWeChat\CorpServer\CorpServer $corp_server
+ * @property \EasyWeChat\OpenPlatform\OpenPlatform               $open_platform
+ * @property \EasyWeChat\MiniProgram\MiniProgram                 $mini_program
+ * @property \EasyWeChat\CorpServer\CorpServer                   $corp_server
  */
 class Application extends Container
 {

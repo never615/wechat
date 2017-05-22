@@ -20,15 +20,14 @@
  * @author    never615 <never615@gmail.com>
  * @copyright 2017
  *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
+ * @see       https://github.com/overtrue
+ * @see       http://overtrue.me
  */
 
 namespace EasyWeChat\CorpServer\EventHandlers;
 
 
-
-
+use EasyWeChat\CorpServer\Core;
 use EasyWeChat\CorpServer\Core\Ticket;
 
 class SuiteTicket extends EventHandler

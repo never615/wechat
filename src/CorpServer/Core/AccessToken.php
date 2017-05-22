@@ -20,53 +20,54 @@
  * @author    never615 <never615@gmail.com>
  * @copyright 2017
  *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
+ * @see       https://github.com/overtrue
+ * @see       http://overtrue.me
  */
 
 namespace EasyWeChat\CorpServer\Core;
 
+use EasyWeChat\Exceptions\HttpException;
 use EasyWeChat\Foundation\Core\AccessToken as BaseAccessToken;
 
 class AccessToken extends BaseAccessToken
 {
     /**
-     * VerifyTicket.
+     * SuiteTicket.
      *
-     * @var \EasyWeChat\CorpServer\Core\SuiteTicket
+     * @var \EasyWeChat\CorpServer\Core\Ticket
      */
-    protected $ticket;
+    protected $suiteTicket;
 
     /**
      * API.
      */
-    const API_TOKEN_GET = 'https://api.weixin.qq.com/cgi-bin/component/api_component_token';
+    const API_TOKEN_GET = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_suite_token';
 
     /**
      * {@inheritdoc}.
      */
-    protected $queryName = 'component_access_token';
+    protected $queryName = 'suite_access_token';
 
     /**
      * {@inheritdoc}.
      */
-    protected $tokenJsonKey = 'component_access_token';
+    protected $tokenJsonKey = 'suite_access_token';
 
     /**
      * {@inheritdoc}.
      */
-    protected $prefix = 'easywechat.open_platform.component_access_token.';
+    protected $prefix = 'easywechat.corp_server.suite_access_token.';
 
     /**
-     * Set VerifyTicket.
+     * Set SuiteTicket.
      *
-     * @param \EasyWeChat\CorpServer\Core\SuiteTicket $ticket
-     *
+     * @param \EasyWeChat\CorpServer\Core\Ticket $ticket
      * @return $this
+     *
      */
-    public function setTicket(Ticket $ticket)
+    public function setSuiteTicket(Ticket $ticket)
     {
-        $this->ticket = $ticket;
+        $this->suiteTicket = $ticket;
 
         return $this;
     }
@@ -77,9 +78,32 @@ class AccessToken extends BaseAccessToken
     public function requestFields(): array
     {
         return [
-            'component_appid' => $this->getClientId(),
-            'component_appsecret' => $this->getClientSecret(),
-            'component_verify_ticket' => $this->ticket->getTicket(),
+            'suite_id'     => $this->getClientId(),
+            'suite_secret' => $this->getClientSecret(),
+            'suite_ticket' => $this->suiteTicket->getTicket(),
         ];
     }
+
+
+    /**
+     * Get the access token from WeChat server.
+     *
+     * @throws \EasyWeChat\Exceptions\HttpException
+     *
+     * @return array
+     */
+    public function getTokenFromServer()
+    {
+        $http = $this->getHttp();
+
+        $result = $http->parseJSON($http->json(static::API_TOKEN_GET, $this->requestFields()));
+
+        if (empty($result[$this->tokenJsonKey])) {
+            throw new HttpException('Request AccessToken fail. response: '.json_encode($result,
+                    JSON_UNESCAPED_UNICODE));
+        }
+
+        return $result;
+    }
+
 }

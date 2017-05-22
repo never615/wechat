@@ -45,20 +45,28 @@ class ServiceProvider implements ServiceProviderInterface
                     $pimple['cache']
                 );
             };
+
+            $pimple["corp_server_$key.access_token"] = function ($pimple) use ($key, $suite) {
+                $accessToken = new AccessToken(
+                    $suite['suite_id'],
+                    $suite['secret']
+                );
+
+                $accessToken->setCache($pimple['cache'])
+                    ->setSuiteTicket($pimple["corp_server_$key.suite_ticket"]);
+
+                return $accessToken;
+            };
+
+            $pimple["corp_server_$key.authorizer_access_token"] = function ($pimple) use ($key, $suite) {
+                $accessToken = new AuthorizerAccessToken(
+                    $suite["suite_id"]
+                );
+                $accessToken->setApi($pimple["corp_server_$key.api"])
+                    ->setCache($pimple['cache']);
+
+                return $accessToken;
+            };
         }
-
-
-//        $container['corp_server.access_token'] = function ($container) {
-//            $accessToken = new AccessToken(
-//                $container['config']['corp_server']['corp_id'],
-//                $container['config']['corp_server']['secret']
-//            );
-//            $accessToken->setCache($container['cache'])
-//                ->setVerifyTicket($container['corp_server.suite_ticket']);
-//
-//            return $accessToken;
-//        };
-
-
     }
 }

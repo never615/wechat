@@ -20,8 +20,8 @@
  * @author    never615 <never615@gmail.com>
  * @copyright 2017
  *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
+ * @see       https://github.com/overtrue
+ * @see       http://overtrue.me
  */
 
 namespace EasyWeChat\CorpServer\Api;
@@ -29,29 +29,19 @@ namespace EasyWeChat\CorpServer\Api;
 class BaseApi extends AbstractCorpServer
 {
     /**
-     * Get auth info api.
+     * Get info (auth_corp_info,auth_info,auth_user_info ) api.
      */
-    const GET_AUTH_INFO = 'https://api.weixin.qq.com/cgi-bin/component/api_query_auth';
+    const GET_INFO = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_permanent_code';
 
     /**
      * Get authorizer token api.
      */
-    const GET_AUTHORIZER_TOKEN = 'https://api.weixin.qq.com/cgi-bin/component/api_authorizer_token';
+    const GET_AUTHORIZER_TOKEN = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_corp_token';
 
     /**
      * Get authorizer info api.
      */
-    const GET_AUTHORIZER_INFO = 'https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_info';
-
-    /**
-     * Get authorizer options api.
-     */
-    const GET_AUTHORIZER_OPTION = 'https://api.weixin.qq.com/cgi-bin/component/api_get_authorizer_option';
-
-    /**
-     * Set authorizer options api.
-     */
-    const SET_AUTHORIZER_OPTION = 'https://api.weixin.qq.com/cgi-bin/component/api_set_authorizer_option';
+    const GET_AUTH_INFO = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_auth_info';
 
     /**
      * Get authorization info.
@@ -63,8 +53,26 @@ class BaseApi extends AbstractCorpServer
     public function getAuthorizationInfo($authCode = null)
     {
         $params = [
-            'component_appid' => $this->getClientId(),
-            'authorization_code' => $authCode ?: $this->request->get('auth_code'),
+            'suite_id'  => $this->getClientId(),
+            "auth_code" => $authCode,
+        ];
+
+        return $this->parseJSON('json', [self::GET_AUTH_INFO, $params]);
+    }
+
+    /**
+     * Get authorization info.
+     *
+     * @param $corpId
+     * @param $permanentCode
+     * @return \EasyWeChat\Support\Collection
+     */
+    public function getAuthorizerInfo($corpId, $permanentCode)
+    {
+        $params = [
+            "suite_id"       => $this->getClientId(),
+            "auth_corpid"    => $corpId,
+            "permanent_code" => $permanentCode,
         ];
 
         return $this->parseJSON('json', [self::GET_AUTH_INFO, $params]);
@@ -77,76 +85,19 @@ class BaseApi extends AbstractCorpServer
      * So developers should NEVER call this method.
      * It'll called by: AuthorizerAccessToken::renewAccessToken()
      *
-     * @param $appId
-     * @param $refreshToken
-     *
+     * @param $authCorpId
+     * @param $permanentCode
      * @return \EasyWeChat\Support\Collection
+     *
      */
-    public function getAuthorizerToken($appId, $refreshToken)
+    public function getAuthorizerToken($authCorpId, $permanentCode)
     {
         $params = [
-            'component_appid' => $this->getClientId(),
-            'authorizer_appid' => $appId,
-            'authorizer_refresh_token' => $refreshToken,
+            "suite_id"       => $this->getClientId(),
+            "auth_corpid"    => $authCorpId,
+            "permanent_code" => $permanentCode,
         ];
 
         return $this->parseJSON('json', [self::GET_AUTHORIZER_TOKEN, $params]);
-    }
-
-    /**
-     * Get authorizer info.
-     *
-     * @param string $authorizerAppId
-     *
-     * @return \EasyWeChat\Support\Collection
-     */
-    public function getAuthorizerInfo($authorizerAppId)
-    {
-        $params = [
-            'component_appid' => $this->getClientId(),
-            'authorizer_appid' => $authorizerAppId,
-        ];
-
-        return $this->parseJSON('json', [self::GET_AUTHORIZER_INFO, $params]);
-    }
-
-    /**
-     * Get options.
-     *
-     * @param $authorizerAppId
-     * @param $optionName
-     *
-     * @return \EasyWeChat\Support\Collection
-     */
-    public function getAuthorizerOption($authorizerAppId, $optionName)
-    {
-        $params = [
-            'component_appid' => $this->getClientId(),
-            'authorizer_appid' => $authorizerAppId,
-            'option_name' => $optionName,
-        ];
-
-        return $this->parseJSON('json', [self::GET_AUTHORIZER_OPTION, $params]);
-    }
-
-    /**
-     * Set authorizer option.
-     *
-     * @param $authorizerAppId
-     * @param $optionName
-     * @param $optionValue
-     *
-     * @return \EasyWeChat\Support\Collection
-     */
-    public function setAuthorizerOption($authorizerAppId, $optionName, $optionValue)
-    {
-        $params = [
-            'component_appid' => $this->getClientId(),
-            'authorizer_appid' => $authorizerAppId,
-            'option_name' => $optionName,
-            'option_value' => $optionValue,
-        ];
-
-        return $this->parseJSON('json', [self::SET_AUTHORIZER_OPTION, $params]);
     }
 }

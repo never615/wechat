@@ -29,6 +29,27 @@ use Exception as BaseException;
 class Encryptor extends BaseEncryptor
 {
 
+    private $suiteId;
+
+    /**
+     * Constructor.
+     *
+     * @param string $appId
+     * @param string $token
+     * @param string $AESKey
+     * @param        $suiteId
+     */
+    public function __construct($appId, $token, $AESKey, $suiteId)
+    {
+        parent::__construct($appId, $token, $AESKey);
+
+        $this->appId = $appId;
+        $this->token = $token;
+        $this->AESKey = $AESKey;
+        $this->blockSize = 32;
+        $this->suiteId = $suiteId;
+    }
+
     /**
      * Decrypt message.
      *
@@ -65,5 +86,49 @@ class Encryptor extends BaseEncryptor
             return XML::parse($this->decrypt($encrypted, $this->appId));
         }
     }
-    
+
+    /**
+     * Decrypt message.
+     *
+     * @param string $encrypted
+     * @param string $appId
+     *
+     * @return string
+     *
+     * @throws EncryptionException
+     */
+    protected function decrypt($encrypted, $appId)
+    {
+        try {
+            $key = $this->getAESKey();
+            $ciphertext = base64_decode($encrypted, true);
+            $iv = substr($key, 0, 16);
+
+            $decrypted = openssl_decrypt($ciphertext, 'aes-256-cbc', $key, OPENSSL_RAW_DATA | OPENSSL_NO_PADDING, $iv);
+        } catch (BaseException $e) {
+            throw new EncryptionException($e->getMessage(), EncryptionException::ERROR_DECRYPT_AES);
+        }
+
+        try {
+            $result = $this->decode($decrypted);
+            if (strlen($result) < 16) {
+                return '';
+            }
+
+            $content = substr($result, 16, strlen($result));
+            $listLen = unpack('N', substr($content, 0, 4));
+            $xmlLen = $listLen[1];
+            $xml = substr($content, 4, $xmlLen);
+            $fromAppId = trim(substr($content, $xmlLen + 4));
+        } catch (BaseException $e) {
+            throw new EncryptionException($e->getMessage(), EncryptionException::ERROR_INVALID_XML);
+        }
+
+        if ($fromAppId !== $appId && $fromAppId !== $this->suiteId) {
+            throw new EncryptionException('Invalid appId.', EncryptionException::ERROR_INVALID_APPID);
+        }
+
+        return $xml;
+    }
+
 }

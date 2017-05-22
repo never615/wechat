@@ -80,6 +80,13 @@ abstract class AccessToken
     protected $prefix;
 
     /**
+     * Http instance.
+     *
+     * @var Http
+     */
+    protected $http;
+
+    /**
      * Constructor.
      *
      * @param string      $clientId

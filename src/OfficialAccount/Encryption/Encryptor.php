@@ -280,8 +280,6 @@ class Encryptor
         }
 
         if ($fromAppId !== $appId) {
-            \Log::info($fromAppId);
-            \Log::info($appId);
             throw new EncryptionException('Invalid appId.', EncryptionException::ERROR_INVALID_APPID);
         }
 

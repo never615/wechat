@@ -42,9 +42,10 @@ class ServiceProvider implements ServiceProviderInterface
         foreach ($suites as $key => $suite) {
             $pimple["corp_server_$key.encryptor"] = function ($pimple) use ($suite) {
                 return new Encryptor(
-                    $suite['suite_id'],
+                    $pimple['config']['corp_server']['corp_id'],
                     $suite['token'],
-                    $suite['aes_key']
+                    $suite['aes_key'],
+                    $suite["suite_id"]
                 );
             };
 

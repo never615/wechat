@@ -12,10 +12,7 @@
 namespace EasyWeChat\Tests\CorpServer;
 
 use Doctrine\Common\Cache\ArrayCache;
-use EasyWeChat\CorpServer\Core\Ticket;
 use EasyWeChat\Foundation\Application;
-use EasyWeChat\OpenPlatform\Core\AccessToken;
-use EasyWeChat\OpenPlatform\Core\VerifyTicket;
 use EasyWeChat\Tests\TestCase;
 use Mockery as m;
 
@@ -23,9 +20,11 @@ class CorpServerTest extends TestCase
 {
     public function testCorpServer()
     {
-        $app=$this->make();
+        $app = $this->make();
 
         $corpServer = $app->corp_server_qa;
+
+        echo \GuzzleHttp\json_encode($app->keys());
 
 //        $this->assertInstanceOf('EasyWeChat\OpenPlatform\Api\BaseApi', $corpServer->api);
 //        $this->assertInstanceOf('EasyWeChat\OpenPlatform\Api\PreAuthorization', $corpServer->pre_auth);
