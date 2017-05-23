@@ -67,6 +67,14 @@ class ServiceProvider implements ServiceProviderInterface
 
                 return $accessToken;
             };
+
+            $pimple["corp_server_$key.provider_access_token"] = function ($pimple) use ($key, $suite) {
+                $accessToken = new ProviderAccessToken(
+                    $pimple['config']['corp_server']['corp_id'],
+                    $pimple['config']['corp_server']['provider_secret']
+                );
+                return $accessToken;
+            };
         }
     }
 }

@@ -43,6 +43,7 @@ class BaseApi extends AbstractCorpServer
      */
     const GET_AUTH_INFO = 'https://qyapi.weixin.qq.com/cgi-bin/service/get_auth_info';
 
+
     /**
      * Get authorization info.
      *
@@ -54,10 +55,10 @@ class BaseApi extends AbstractCorpServer
     {
         $params = [
             'suite_id'  => $this->getClientId(),
-            "auth_code" => $authCode,
+            "auth_code" => $authCode ?: $this->request->get('auth_code'),
         ];
 
-        return $this->parseJSON('json', [self::GET_AUTH_INFO, $params]);
+        return $this->parseJSON('json', [self::GET_INFO, $params]);
     }
 
     /**
@@ -100,4 +101,8 @@ class BaseApi extends AbstractCorpServer
 
         return $this->parseJSON('json', [self::GET_AUTHORIZER_TOKEN, $params]);
     }
+
+
+
+
 }

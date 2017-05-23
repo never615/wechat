@@ -26,9 +26,9 @@
 
 namespace EasyWeChat\CorpServer\Core;
 
+use EasyWeChat\CorpServer\Api\BaseApi;
 use EasyWeChat\Exceptions\Exception;
 use EasyWeChat\Foundation\Core\AccessToken as BaseAccessToken;
-use EasyWeChat\OpenPlatform\Api\BaseApi;
 
 /**
  * Class AuthorizerAccessToken.

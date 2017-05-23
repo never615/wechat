@@ -37,7 +37,8 @@ use Pimple\Container;
  * @property \EasyWeChat\CorpServer\Api\PreAuthorization $pre_auth
  * @property \EasyWeChat\CorpServer\Server\Guard         $server
  * @property \EasyWeChat\CorpServer\Core\AccessToken     $access_token
- * 
+ * @property \EasyWeChat\CorpServer\Encryption\Encryptor    $encryptor
+ *
  * @method \EasyWeChat\Support\Collection getAuthorizationInfo($authCode = null)
  * @method \EasyWeChat\Support\Collection getAuthorizerInfo($corpId, $permanentCode)
  *
@@ -46,7 +47,7 @@ class CorpServer
 {
     use PrefixedContainer;
 
-    private $suiteKey="";
+    private $suiteKey = "";
 
     /**
      * ContainerAccess constructor.
@@ -61,27 +62,27 @@ class CorpServer
     }
 
 
-//    /**
-//     * Create an instance of the EasyWeChat for the given authorizer.
-//     *
-//     * @param string $appId        Authorizer AppId
-//     * @param string $refreshToken Authorizer refresh-token
-//     *
-//     * @return \EasyWeChat\Foundation\Application
-//     */
-//    public function createAuthorizerApplication(string $appId, string $refreshToken)
-//    {
-//        $this->fetch('authorizer_access_token', function ($accessToken) use ($appId, $refreshToken) {
-//            $accessToken->setAppId($appId);
-//            $accessToken->setRefreshToken($refreshToken);
-//        });
-//
-//        return $this->fetch('app', function ($app) {
-//            $app['access_token'] = $this->fetch('authorizer_access_token');
+    /**
+     * Create an instance of the EasyWeChat for the given authorizer.
+     *
+     * @param string $corpId        Authorizer AppId
+     * @param string $permanentCode Authorizer refresh-token
+     *
+     * @return \EasyWeChat\Foundation\Application
+     */
+    public function createAuthorizerApplication(string $corpId, string $permanentCode)
+    {
+        $this->fetch('authorizer_access_token', function ($accessToken) use ($corpId, $permanentCode) {
+            $accessToken->setCorpId($corpId);
+            $accessToken->setPermanentCode($permanentCode);
+        });
+
+        return $this->fetch('app', function ($app) {
+            $app['access_token'] = $this->fetch('authorizer_access_token');
 //            $app['oauth'] = $this->fetch('oauth');
-//            $app['server'] = $this->fetch('server');
-//        });
-//    }
+            $app['server'] = $this->fetch('server');
+        });
+    }
 
     /**
      * Quick access to the base-api.
@@ -101,7 +102,7 @@ class CorpServer
      *
      * Get the `class basename` of the current class.
      * Convert `class basename` to snake-case and concatenation with dot notation.
-     * 
+     *
      * E.g. Class 'EasyWechat', $key foo -> 'easy_wechat_[suiteKey].foo'
      *
      * @param string $key The unique identifier for the parameter or object

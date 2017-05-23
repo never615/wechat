@@ -51,6 +51,23 @@ class Encryptor extends BaseEncryptor
     }
 
     /**
+     * @return string
+     */
+    public function getAppId()
+    {
+        return $this->appId;
+    }
+
+    /**
+     * @param string $appId
+     */
+    public function setAppId($appId)
+    {
+        $this->appId = $appId;
+    }
+    
+
+    /**
      * Decrypt message.
      *
      * @param string  $msgSignature
@@ -124,6 +141,8 @@ class Encryptor extends BaseEncryptor
             throw new EncryptionException($e->getMessage(), EncryptionException::ERROR_INVALID_XML);
         }
 
+        //appid(corpid:应用套件的)验证的时候使用;suiteid接收消息回调(ticket等时使用)
+        //appid可以重新设置,用来接受具体企业号的用户消息
         if ($fromAppId !== $appId && $fromAppId !== $this->suiteId) {
             throw new EncryptionException('Invalid appId.', EncryptionException::ERROR_INVALID_APPID);
         }

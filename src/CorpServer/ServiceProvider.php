@@ -27,8 +27,10 @@
 namespace EasyWeChat\CorpServer;
 
 use EasyWeChat\CorpServer\Api\BaseApi;
+use EasyWeChat\CorpServer\Api\LoginUserInfo;
 use EasyWeChat\CorpServer\Api\PreAuthorization;
 use EasyWeChat\CorpServer\EventHandlers;
+use EasyWeChat\Foundation\Application;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -62,6 +64,23 @@ class ServiceProvider implements ServiceProviderInterface
                 );
             };
 
+            $pimple["corp_server_$key.pre_auth"] = $pimple["corp_server_$key.pre_authorization"] = function ($pimple
+            ) use ($key) {
+                return new PreAuthorization(
+                    $pimple["corp_server_$key.access_token"],
+                    $pimple['request']
+                );
+            };
+
+            $pimple["corp_server_$key.login_user"] = function (
+                $pimple
+            ) use ($key) {
+                return new LoginUserInfo(
+                    $pimple["corp_server_$key.provider_access_token"],
+                    $pimple['request']
+                );
+            };
+
 
             $pimple["corp_server_$key.handlers.suite_ticket"] = function ($pimple) use ($key) {
                 return new EventHandlers\SuiteTicket($pimple["corp_server_$key.suite_ticket"]);
@@ -76,12 +95,8 @@ class ServiceProvider implements ServiceProviderInterface
                 return new EventHandlers\CancleAuth();
             };
 
-            $pimple["corp_server_$key.pre_auth"] = $pimple["corp_server_$key.pre_authorization"] = function ($pimple
-            ) use ($key) {
-                return new PreAuthorization(
-                    $pimple["corp_server_$key.access_token"],
-                    $pimple['request']
-                );
+            $pimple["corp_server_$key.app"] = function ($pimple) {
+                return new Application($pimple['config']->toArray());
             };
 
 
