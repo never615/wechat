@@ -31,6 +31,7 @@ use EasyWeChat\CorpServer\Api\LoginUserInfo;
 use EasyWeChat\CorpServer\Api\PreAuthorization;
 use EasyWeChat\CorpServer\EventHandlers;
 use EasyWeChat\Foundation\Application;
+use Overtrue\Socialite\SocialiteManager as Socialite;
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
 
@@ -99,7 +100,43 @@ class ServiceProvider implements ServiceProviderInterface
                 return new Application($pimple['config']->toArray());
             };
 
+            // OAuth for CorpServer.
+            $pimple["corp_server_$key.oauth"] = function ($pimple) use ($key) {
+                $callback = $this->prepareCallbackUrl($pimple);
+                $scopes = $pimple['config']->get('corp_server.oauth.scopes', []);
+                $socialite = (new Socialite([
+                    'wechat_corp_server' => [
+                        'client_id'     => $pimple["corp_server_$key.authorizer_access_token"]->getCorpId(),
+                        'client_secret' => $pimple["corp_server_$key.authorizer_access_token"],
+                        'redirect'      => $callback,
+                    ],
+                ]))->driver('wechat_corp_server');
+
+                if (!empty($scopes)) {
+                    $socialite->scopes($scopes);
+                }
+
+                return $socialite;
+            };
 
         }
+    }
+
+    /**
+     * Prepare the OAuth callback url for wechat.
+     *
+     * @param Container $pimple
+     *
+     * @return string
+     */
+    private function prepareCallbackUrl($pimple)
+    {
+        $callback = $pimple['config']->get('oauth.callback');
+        if (0 === stripos($callback, 'http')) {
+            return $callback;
+        }
+        $baseUrl = $pimple['request']->getSchemeAndHttpHost();
+
+        return $baseUrl.'/'.ltrim($callback, '/');
     }
 }

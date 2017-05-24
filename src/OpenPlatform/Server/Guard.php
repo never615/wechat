@@ -50,6 +50,7 @@ class Guard extends ServerGuard
      * Set handlers.
      *
      * @param array $handlers
+     * @return $this
      */
     public function setHandlers(array $handlers)
     {

@@ -50,7 +50,7 @@ class AuthorizerAccessToken extends BaseAccessToken
     /**
      * {@inheritdoc}.
      */
-    protected $tokenJsonKey = 'suite_access_token';
+    protected $tokenJsonKey = 'access_token';
 
     /**
      * Api instance.

@@ -20,8 +20,8 @@
  * @author    mingyoung <mingyoungcheung@gmail.com>
  * @copyright 2016
  *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
+ * @see       https://github.com/overtrue
+ * @see       http://overtrue.me
  */
 
 namespace EasyWeChat\OpenPlatform;
@@ -31,10 +31,10 @@ use EasyWeChat\Support\Traits\PrefixedContainer;
 /**
  * Class OpenPlatform.
  *
- * @property \EasyWeChat\OpenPlatform\Api\BaseApi $api
+ * @property \EasyWeChat\OpenPlatform\Api\BaseApi          $api
  * @property \EasyWeChat\OpenPlatform\Api\PreAuthorization $pre_auth
- * @property \EasyWeChat\OpenPlatform\Guard $server
- * @property \EasyWeChat\OpenPlatform\AccessToken $access_token
+ * @property \EasyWeChat\OpenPlatform\Guard                $server
+ * @property \EasyWeChat\OpenPlatform\AccessToken          $access_token
  *
  * @method \EasyWeChat\Support\Collection getAuthorizationInfo($authCode = null)
  * @method \EasyWeChat\Support\Collection getAuthorizerInfo($authorizerAppId)

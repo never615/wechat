@@ -37,7 +37,7 @@ use Pimple\Container;
  * @property \EasyWeChat\CorpServer\Api\PreAuthorization $pre_auth
  * @property \EasyWeChat\CorpServer\Server\Guard         $server
  * @property \EasyWeChat\CorpServer\Core\AccessToken     $access_token
- * @property \EasyWeChat\CorpServer\Encryption\Encryptor    $encryptor
+ * @property \EasyWeChat\CorpServer\Encryption\Encryptor $encryptor
  *
  * @method \EasyWeChat\Support\Collection getAuthorizationInfo($authCode = null)
  * @method \EasyWeChat\Support\Collection getAuthorizerInfo($corpId, $permanentCode)
@@ -79,7 +79,7 @@ class CorpServer
 
         return $this->fetch('app', function ($app) {
             $app['access_token'] = $this->fetch('authorizer_access_token');
-//            $app['oauth'] = $this->fetch('oauth');
+            $app['oauth'] = $this->fetch('oauth');
             $app['server'] = $this->fetch('server');
         });
     }
