@@ -40,35 +40,35 @@ use Symfony\Component\HttpFoundation\Request;
 /**
  * Class Application.
  *
- * @property \EasyWeChat\OfficialAccount\Core\AccessToken $access_token
- * @property \EasyWeChat\OfficialAccount\Server\Guard $server
- * @property \EasyWeChat\OfficialAccount\User\User $user
- * @property \EasyWeChat\OfficialAccount\User\Tag $user_tag
- * @property \EasyWeChat\OfficialAccount\User\Group $user_group
- * @property \EasyWeChat\OfficialAccount\Js\Js $js
- * @property \Overtrue\Socialite\Providers\WeChatProvider $oauth
- * @property \EasyWeChat\OfficialAccount\Menu\Menu $menu
+ * @property \EasyWeChat\OfficialAccount\Core\AccessToken                $access_token
+ * @property \EasyWeChat\OfficialAccount\Server\Guard                    $server
+ * @property \EasyWeChat\OfficialAccount\User\User                       $user
+ * @property \EasyWeChat\OfficialAccount\User\Tag                        $user_tag
+ * @property \EasyWeChat\OfficialAccount\User\Group                      $user_group
+ * @property \EasyWeChat\OfficialAccount\Js\Js                           $js
+ * @property \Overtrue\Socialite\Providers\WeChatProvider                $oauth
+ * @property \EasyWeChat\OfficialAccount\Menu\Menu                       $menu
  * @property \EasyWeChat\OfficialAccount\TemplateMessage\TemplateMessage $template_message
- * @property \EasyWeChat\OfficialAccount\Material\Material $material
- * @property \EasyWeChat\OfficialAccount\Material\Temporary $material_temporary
+ * @property \EasyWeChat\OfficialAccount\Material\Material               $material
+ * @property \EasyWeChat\OfficialAccount\Material\Temporary              $material_temporary
  * @property \EasyWeChat\OfficialAccount\CustomerService\CustomerService $customer_service
- * @property \EasyWeChat\OfficialAccount\Url\Url $url
- * @property \EasyWeChat\OfficialAccount\QRCode\QRCode $qrcode
- * @property \EasyWeChat\OfficialAccount\Semantic\Semantic $semantic
- * @property \EasyWeChat\OfficialAccount\Stats\Stats $stats
- * @property \EasyWeChat\OfficialAccount\Payment\Merchant $merchant
- * @property \EasyWeChat\OfficialAccount\Payment\Payment $payment
- * @property \EasyWeChat\OfficialAccount\Payment\LuckyMoney\LuckyMoney $lucky_money
+ * @property \EasyWeChat\OfficialAccount\Url\Url                         $url
+ * @property \EasyWeChat\OfficialAccount\QRCode\QRCode                   $qrcode
+ * @property \EasyWeChat\OfficialAccount\Semantic\Semantic               $semantic
+ * @property \EasyWeChat\OfficialAccount\Stats\Stats                     $stats
+ * @property \EasyWeChat\OfficialAccount\Payment\Merchant                $merchant
+ * @property \EasyWeChat\OfficialAccount\Payment\Payment                 $payment
+ * @property \EasyWeChat\OfficialAccount\Payment\LuckyMoney\LuckyMoney   $lucky_money
  * @property \EasyWeChat\OfficialAccount\Payment\MerchantPay\MerchantPay $merchant_pay
- * @property \EasyWeChat\OfficialAccount\Payment\CashCoupon\CashCoupon $cash_coupon
- * @property \EasyWeChat\OfficialAccount\Reply\Reply             $reply
- * @property \EasyWeChat\OfficialAccount\Broadcast\Broadcast     $broadcast
- * @property \EasyWeChat\OfficialAccount\Card\Card               $card
- * @property \EasyWeChat\OfficialAccount\Device\Device           $device
- * @property \EasyWeChat\OfficialAccount\ShakeAround\ShakeAround $shakearound
- * @property \EasyWeChat\OpenPlatform\OpenPlatform               $open_platform
- * @property \EasyWeChat\MiniProgram\MiniProgram                 $mini_program
- * @property \EasyWeChat\CorpServer\CorpServer                   $corp_server
+ * @property \EasyWeChat\OfficialAccount\Payment\CashCoupon\CashCoupon   $cash_coupon
+ * @property \EasyWeChat\OfficialAccount\Reply\Reply                     $reply
+ * @property \EasyWeChat\OfficialAccount\Broadcast\Broadcast             $broadcast
+ * @property \EasyWeChat\OfficialAccount\Card\Card                       $card
+ * @property \EasyWeChat\OfficialAccount\Device\Device                   $device
+ * @property \EasyWeChat\OfficialAccount\ShakeAround\ShakeAround         $shakearound
+ * @property \EasyWeChat\OpenPlatform\OpenPlatform                       $open_platform
+ * @property \EasyWeChat\MiniProgram\MiniProgram                         $mini_program
+ * @property \EasyWeChat\CorpServer\CorpServer                           $corp_server
  */
 class Application extends Container
 {
@@ -127,6 +127,7 @@ class Application extends Container
         \EasyWeChat\CorpServer\ServiceProvider::class,
         \EasyWeChat\CorpServer\Core\ServiceProvider::class,
         \EasyWeChat\CorpServer\Server\ServiceProvider::class,
+        \EasyWeChat\CorpServer\Js\ServiceProvider::class,
     ];
 
     /**
