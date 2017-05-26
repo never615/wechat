@@ -82,6 +82,8 @@ class CorpServer
             $app['oauth'] = $this->fetch('oauth');
             $app['server'] = $this->fetch('server');
             $app['js'] = $this->fetch('js');
+            $app['broadcast'] = $this->fetch('broadcast');
+
         });
     }
 
