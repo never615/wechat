@@ -68,7 +68,10 @@ class Broadcast extends AbstractAPI
             ->by($by)
             ->build();
 
-        return $this->post(self::API_SEND_MESSAGE, $message);
+        $result= $this->post(self::API_SEND_MESSAGE, $message);
+        return $result;
+
+
     }
 
     /**

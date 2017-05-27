@@ -23,7 +23,8 @@
  * @see       https://github.com/overtrue
  * @see       http://overtrue.me
  */
-namespace EasyWeChat\CorpServer\Js;
+namespace EasyWeChat\CorpServer\Menu;
+
 
 use Pimple\Container;
 use Pimple\ServiceProviderInterface;
@@ -46,12 +47,12 @@ class ServiceProvider implements ServiceProviderInterface
         $suites = $pimple['config']['corp_server']['suites'];
 
         foreach ($suites as $key => $suite) {
-            $pimple["corp_server_$key.js"] = function ($pimple) use ($key) {
-                $js = new Js($pimple["corp_server_$key.authorizer_access_token"]);
-                $js->setCache($pimple['cache']);
+            $pimple["corp_server_$key.menu"] = function ($pimple) use ($key) {
+                $js = new Menu($pimple["corp_server_$key.authorizer_access_token"]);
 
                 return $js;
             };
         }
+
     }
 }

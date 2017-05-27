@@ -21,8 +21,8 @@
  * @author    lixiao <leonlx126@gmail.com>
  * @copyright 2016
  *
- * @see      https://github.com/overtrue
- * @see      http://overtrue.me
+ * @see       https://github.com/overtrue
+ * @see       http://overtrue.me
  */
 
 namespace EasyWeChat\OpenPlatform;
@@ -91,12 +91,12 @@ class ServiceProvider implements ServiceProviderInterface
             $scopes = $pimple['config']->get('open_platform.oauth.scopes', []);
             $socialite = (new Socialite([
                 'wechat_open' => [
-                    'client_id' => $pimple['open_platform.authorizer_access_token']->getAppId(),
+                    'client_id'     => $pimple['open_platform.authorizer_access_token']->getAppId(),
                     'client_secret' => [
                         $pimple['open_platform.access_token']->getClientId(),
                         $pimple['open_platform.access_token']->getToken(),
                     ],
-                    'redirect' => $callback,
+                    'redirect'      => $callback,
                 ],
             ]))->driver('wechat_open');
 

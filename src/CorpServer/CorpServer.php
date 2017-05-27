@@ -83,6 +83,7 @@ class CorpServer
             $app['server'] = $this->fetch('server');
             $app['js'] = $this->fetch('js');
             $app['broadcast'] = $this->fetch('broadcast');
+            $app['menu']=$this->fetch("menu");
 
         });
     }

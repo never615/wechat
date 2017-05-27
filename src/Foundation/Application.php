@@ -129,6 +129,7 @@ class Application extends Container
         \EasyWeChat\CorpServer\Server\ServiceProvider::class,
         \EasyWeChat\CorpServer\Js\ServiceProvider::class,
         \EasyWeChat\CorpServer\Broadcast\ServiceProvider::class,
+        \EasyWeChat\CorpServer\Menu\ServiceProvider::class,
     ];
 
     /**
