@@ -65,6 +65,7 @@ class MessageBuilder
      */
     private $msgTypes = [
         Broadcast::MSG_TYPE_TEXT,
+        Broadcast::MSG_TYPE_TEXT_CARD,
 //        Broadcast::MSG_TYPE_NEWS,
 //        Broadcast::MSG_TYPE_IMAGE,
 //        Broadcast::MSG_TYPE_VIDEO,

@@ -89,6 +89,26 @@ class Transformer
         ];
     }
 
+
+    /**
+     * Transform text message.
+     *
+     * @param string $message
+     *
+     * @return array
+     */
+    public function transformTextcard($message)
+    {
+        return [
+            "textcard" => [
+                "title"       => $message[0],
+                "description" => $message[1],
+                "url"         => $message[2],
+            ],
+            'msgtype'  => 'textcard',
+        ];
+    }
+
     /**
      * Transform news message.
      *

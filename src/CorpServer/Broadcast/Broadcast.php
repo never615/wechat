@@ -37,11 +37,13 @@ class Broadcast extends AbstractAPI
     const API_SEND_MESSAGE = "https://qyapi.weixin.qq.com/cgi-bin/message/send";
 
     const MSG_TYPE_TEXT = 'text'; // 文本
+    const MSG_TYPE_TEXT_CARD = 'textcard'; //卡片消息
 //    const MSG_TYPE_NEWS = 'news'; // 图文
 //    const MSG_TYPE_VOICE = 'voice'; // 语音
 //    const MSG_TYPE_IMAGE = 'image'; // 图片
 //    const MSG_TYPE_VIDEO = 'video'; // 视频
 //    const MSG_TYPE_CARD = 'card'; // 卡券
+
 
     const SEND_TO_USER = "touser";    //给指定用户发送
     const SEND_TO_PARTY = "toparty";  //给指定部门发送
@@ -68,7 +70,8 @@ class Broadcast extends AbstractAPI
             ->by($by)
             ->build();
 
-        $result= $this->post(self::API_SEND_MESSAGE, $message);
+        $result = $this->post(self::API_SEND_MESSAGE, $message);
+
         return $result;
 
 
@@ -88,6 +91,20 @@ class Broadcast extends AbstractAPI
     {
         return $this->send(self::MSG_TYPE_TEXT, $message, $to, $agentId, $by);
     }
+
+    /**
+     * Send a news message.
+     *
+     * @param mixed $message message
+     * @param mixed $to
+     *
+     * @return mixed
+     */
+    public function sendTextCard($message, $to = null, $agentId, $by = self::SEND_TO_USER)
+    {
+        return $this->send(self::MSG_TYPE_TEXT_CARD, $message, $to, $agentId, $by);
+    }
+
 //
 //    /**
 //     * Send a news message.
