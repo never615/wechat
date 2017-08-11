@@ -1,6 +1,7 @@
 {
     "name": "overtrue/wechat",
     "description": "微信SDK",
+    "type":"library",
     "keywords": [
         "wechat",
         "weixin",
