@@ -36,7 +36,6 @@ use EasyWeChat\Kernel\ServiceContainer;
  * @property \EasyWeChat\OfficialAccount\AutoReply\Client        $auto_reply
  * @property \EasyWeChat\OfficialAccount\Broadcasting\Client     $broadcasting
  * @property \EasyWeChat\OfficialAccount\Card\Card               $card
- * @property \EasyWeChat\OfficialAccount\Invoice\Client          $invoice
  * @property \EasyWeChat\OfficialAccount\Device\Client           $device
  * @property \EasyWeChat\OfficialAccount\ShakeAround\ShakeAround $shake_around
  * @property \EasyWeChat\OfficialAccount\Base\Client             $base
@@ -62,7 +61,6 @@ class Application extends ServiceContainer
         AutoReply\ServiceProvider::class,
         Broadcasting\ServiceProvider::class,
         Card\ServiceProvider::class,
-        Invoice\ServiceProvider::class,
         Device\ServiceProvider::class,
         ShakeAround\ServiceProvider::class,
         Comment\ServiceProvider::class,

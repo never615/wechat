@@ -1,8 +1,6 @@
 <?php
 
-namespace EasyWeChat\OfficialAccount\Invoice;
-
-use EasyWeChat\Kernel\Traits\InteractsWithCache;
+namespace EasyWeChat\OfficialAccount\Card;
 
 /**
  * Created by PhpStorm.
@@ -10,29 +8,8 @@ use EasyWeChat\Kernel\Traits\InteractsWithCache;
  * Date: 2018/5/10
  * Time: 下午3:19
  */
-class Client extends \EasyWeChat\Kernel\BaseClient
+class InvoiceClient extends \EasyWeChat\Kernel\BaseClient
 {
-    use InteractsWithCache;
-
-    /**
-     * @var string
-     */
-    protected $url;
-
-    /**
-     * Ticket cache key.
-     *
-     * @var string
-     */
-    protected $ticketCacheKey;
-
-    /**
-     * Ticket cache prefix.
-     *
-     * @var string
-     */
-    protected $ticketCachePrefix = 'easywechat.official_account.card.api_ticket.';
-
     /**
      * 查询授权完成状态
      *
@@ -117,6 +94,7 @@ class Client extends \EasyWeChat\Kernel\BaseClient
     /**
      * 取授权页链接
      *
+     * @param        $ticket
      * @param        $s_pappid ,开票平台在微信的标识号，商户需要找开票平台提供
      * @param        $orderId  ,订单id，在商户内单笔开票请求的唯一识别号，
      * @param        $money
@@ -126,8 +104,17 @@ class Client extends \EasyWeChat\Kernel\BaseClient
      * @param string $source
      * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
      */
-    public function getAuthUrl($s_pappid, $orderId, $money, $timestamp, $redirectUrl = null, $type = 0, $source = 'web')
-    {
+    public function getAuthUrl(
+        $ticket,
+        $s_pappid,
+        $orderId,
+        $money,
+        $timestamp,
+        $redirectUrl = null,
+        $type = 0,
+        $source = 'web'
+    ) {
+
         $params = [
             's_pappid'     => $s_pappid,
             'order_id'     => $orderId,
@@ -135,7 +122,7 @@ class Client extends \EasyWeChat\Kernel\BaseClient
             'timestamp'    => $timestamp,
             'source'       => $source,
             'redirect_url' => $redirectUrl,
-            'ticket'       => $this->getAPITicket(),
+            'ticket'       => $ticket,
             'type'         => $type,
         ];
 
@@ -143,102 +130,45 @@ class Client extends \EasyWeChat\Kernel\BaseClient
     }
 
 
-    /**
-     * 获取发票授权页 Api_ticket
-     *
-     * @param bool $refresh
-     * @return mixed
-     */
-    public function getAPITicket($refresh = false)
+    public function setBizAttr($phone, $timeOut)
     {
-        $key = $this->getTicketCacheKey();
+        $params = [
+            'contact' => [
+                "phone"    => $phone,
+                "time_out" => $timeOut,
+            ],
+        ];
 
-        $ticket = $this->getCache()->fetch($key);
-
-        if (!$ticket || $refresh) {
-
-            $params = [
-                'type' => 'wx_card',
-            ];
-
-            $result = $this->httpPostJson('cgi-bin/ticket/getticket', $params);
-
-            $this->getCache()->save($key, $result['ticket'], $result['expires_in'] - 500);
-
-            return $result['ticket'];
-        }
-
-        return $ticket;
+        return $this->httpPostJson('card/invoice/setbizattr', $params, [
+            "action" => "set_contact",
+        ]);
     }
 
-
-    /**
-     * //todo
-     * 更改发票信息接口 and 设置跟随推荐接口.
-     *
-     * @param       $cardId
-     * @param array $baseInfo
-     * @param array $especial
-     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
-     */
-    public function update($cardId, $baseInfo = [], $especial = [])
-    {
-        $card = [];
-        $card['card_id'] = $cardId;
-        $card['invoice_info'] = [];
-
-        $cardInfo = [];
-        if ($baseInfo) {
-            $cardInfo['base_info'] = $baseInfo;
-        }
-
-        $card['invoice_info'] = array_merge($cardInfo, $especial);
-
-        return $this->httpPostJson('card/update', $card);
-    }
-
-
-    /**
-     * Set Api_ticket cache prifix.
-     *
-     * @param string $prefix
-     *
-     * @return $this
-     */
-    public function setTicketCachePrefix($prefix)
-    {
-        $this->ticketCachePrefix = $prefix;
-
-        return $this;
-    }
-
-    /**
-     * Set Api_ticket cache key.
-     *
-     * @param string $cacheKey
-     *
-     * @return $this
-     */
-    public function setTicketCacheKey($cacheKey)
-    {
-        $this->ticketCacheKey = $cacheKey;
-
-        return $this;
-    }
-
-    /**
-     * Get ApiTicket token cache key.
-     *
-     * @return string
-     */
-    public function getTicketCacheKey()
-    {
-        if (is_null($this->ticketCacheKey)) {
-            return $this->ticketCachePrefix.$this->getAccessToken()->getAppId();
-        }
-
-        return $this->ticketCacheKey;
-    }
+//
+//    /**
+//     * //todo
+//     * 更改发票信息接口 and 设置跟随推荐接口.
+//     *
+//     * @param       $cardId
+//     * @param array $baseInfo
+//     * @param array $especial
+//     * @return array|\EasyWeChat\Kernel\Support\Collection|object|\Psr\Http\Message\ResponseInterface|string
+//     */
+//    public function update($cardId, $baseInfo = [], $especial = [])
+//    {
+//        $card = [];
+//        $card['card_id'] = $cardId;
+//        $card['invoice_info'] = [];
+//
+//        $cardInfo = [];
+//        if ($baseInfo) {
+//            $cardInfo['base_info'] = $baseInfo;
+//        }
+//
+//        $card['invoice_info'] = array_merge($cardInfo, $especial);
+//
+//        return $this->httpPostJson('card/update', $card);
+//    }
 
 
 }

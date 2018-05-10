@@ -69,5 +69,9 @@ class ServiceProvider implements ServiceProviderInterface
         $app['card.jssdk'] = function ($app) {
             return new JssdkClient($app);
         };
+
+        $app['card.invoice'] = function ($app) {
+            return new InvoiceClient($app);
+        };
     }
 }
